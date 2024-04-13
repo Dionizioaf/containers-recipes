@@ -10,7 +10,7 @@ RUN apt-get update && \
     zip apt-utils build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev awscli && \
     rm -rf /var/lib/apt/lists/*
 
-# Set Java environment variables
+# Set Java environment variables necessary to sonar
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
@@ -21,15 +21,18 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | b
     && nvm install node \
     && npm install --global yarn
 
+# Configure shell Environment
 ENV PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-# Install SonarQube Scan
+# Install SonarQube Scan, if you want to change version, navegate to binaries.sonarsource.com
+# and check other versions
 RUN wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip && \
     unzip sonar-scanner-cli-5.0.1.3006-linux.zip -d /opt && \
     ls /opt && \
     mv /opt/sonar-scanner-5.0.1.3006-linux /opt/sonar-scanner && \
     rm -f sonar-scanner-cli-5.0.1.3006-linux.zip
 
+# Configure shell Environment
 ENV PATH="/opt/sonar-scanner/bin:$PATH"
 
 # Install OWASP Dependency Check
@@ -43,9 +46,6 @@ RUN export VERSION=$(curl -s https://jeremylong.github.io/DependencyCheck/curren
 RUN chmod +x /opt/dependency-check/bin/dependency-check
 RUN sh /opt/dependency-check/bin/dependency-check --updateonly --nvdApiKey "$owasp_dep_api"
 ENV PATH="/opt/dependency-check/bin:$PATH"
-
-# Copy your code and configuration files to the container
-COPY depcheck-data /opt/dependency-check/data/
 
 # Install Trivy
 RUN wget https://github.com/aquasecurity/trivy/releases/download/v0.50.1/trivy_0.50.1_Linux-64bit.tar.gz && \

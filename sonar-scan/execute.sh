@@ -16,7 +16,7 @@ fi
 # Its all described in Medium (link in README).
 # Basically you need to run terraform plan -out tf.plan and save the 
 # tf.plan or anything.plan in root
-# run checkout and generate the sarif files
+# run checkov and generate the sarif files
 find "." -type f -name "*.plan" | while IFS= read -r file; do
 filename=$(basename -- "$file")
 filename_no_ext="${filename%.*}"
