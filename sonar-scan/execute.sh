@@ -12,9 +12,9 @@ else
 echo "No PRE .sh file found in the root folder."
 fi
 
-# If its a terraform directory, it's necessary run some steps earlier,
-# Its all described in Medium (link in README).
-# Basically you need to run terraform plan -out tf.plan and save the 
+# If it is a terraform directory, it's necessary to run some steps earlier,
+# It's all described in Medium (link in README).
+# You need to run terraform plan -out tf.plan and save the 
 # tf.plan or anything.plan in root
 # run checkov and generate the sarif files
 find "." -type f -name "*.plan" | while IFS= read -r file; do
@@ -25,7 +25,7 @@ checkov -f "$filename_no_ext.json" -o "$filename_no_ext.sarif"
 done
 
 #Trivy / Tfsec
-# If in root has a file trivy.config, it will run the trivy analysis.
+# If the root has a file trivy.config, it will run the trivy analysis.
 local filename="trivy.config"
 if [ -f "$filename" ]; then
 while IFS= read -r line; do
@@ -34,7 +34,7 @@ done < "$filename"
 fi
 
 # tflint
-# If in root has a file tflint.config, it will run the tflint analysis.
+# If the root has a file tflint.config, it will run the tflint analysis.
 local filename="tflint.config"
 if [ -f "$filename" ]; then
 while IFS= read -r line; do
@@ -43,8 +43,8 @@ done < "$filename"
 fi
 
 
-# Run dependency check analyzes
-# It has some languages suport you can check here 
+# Run dependency check analysis
+# It has some language support you can check here
 # - https://jeremylong.github.io/DependencyCheck/analyzers/index.html
 dependency-check --out . -f HTML -f JSON --disableOssIndex true
 

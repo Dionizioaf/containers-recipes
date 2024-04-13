@@ -24,7 +24,7 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | b
 # Configure shell Environment
 ENV PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-# Install SonarQube Scan, if you want to change version, navegate to binaries.sonarsource.com
+# Install SonarQube Scan, if you want to change the version, navigate to binaries.sonarsource.com
 # and check other versions
 RUN wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip && \
     unzip sonar-scanner-cli-5.0.1.3006-linux.zip -d /opt && \
